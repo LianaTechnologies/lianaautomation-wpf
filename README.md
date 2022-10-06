@@ -1,9 +1,9 @@
-# lianaautomation-wpforms
+# lianaautomation-wpf
 
 
 ## Oneliner to create installable plugin from the repo directory
 
 ```
-zip -r lianaautomation-wpforms-version.zip lianaautomation-wpforms -x "lianaautomation-wpforms/.git*"
+zip -r lianaautomation-wpf.zip lianaautomation-wpf -x "lianaautomation-wpf/.*"
 ```
 
