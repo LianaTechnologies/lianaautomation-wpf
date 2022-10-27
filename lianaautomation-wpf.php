@@ -15,7 +15,6 @@
  * PHP Version 7.4
  *
  * @package  LianaAutomation
- * @author   Liana Technologies <websites@lianatech.com>
  * @license  https://www.gnu.org/licenses/gpl-3.0-standalone.html GPL-3.0-or-later
  * @link     https://www.lianatech.com
  */
@@ -31,6 +30,8 @@ require_once dirname(__FILE__) . '/includes/lianaautomation-cookie.php';
 require_once dirname(__FILE__) . '/includes/lianaautomation-wpforms.php';
 
 /**
- * Include admin panel code
+ * Conditionally include admin panel code
  */
-require_once dirname(__FILE__) . '/admin/lianaautomation-admin.php';
+if ( is_admin() ) {
+	require_once dirname(__FILE__) . '/admin/class-lianaautomation-wpf.php';
+}
