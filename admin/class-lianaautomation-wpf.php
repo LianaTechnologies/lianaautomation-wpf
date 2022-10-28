@@ -24,26 +24,24 @@ class LianaAutomation_WPF {
 	public function __construct() {
 		add_action(
 			'admin_menu',
-			array( $this, 'lianaAutomationWPFormsAddPluginPage' )
+			array( $this, 'lianaautomation_wpf_add_plugin_page' )
 		);
 
 		add_action(
 			'admin_init',
-			array( $this, 'lianaAutomationWPFormsPageInit' )
+			array( $this, 'lianaautomation_wpf_page_init' )
 		);
 	}
 
 	/**
 	 * Add an admin page
 	 *
-	 * @return null
+	 * @return void
 	 */
-	public function lianaAutomationWPFormsAddPluginPage() {
+	public function lianaautomation_wpf_add_plugin_page():void {
 		global $admin_page_hooks;
 
-		// error_log(print_r($admin_page_hooks, true));
-
-		// Only create the top level menu if it doesn't exist (via another plugin)
+		// Only create the top level menu if it doesn't exist (via another plugin)!
 		if ( ! isset( $admin_page_hooks['lianaautomation'] ) ) {
 			add_menu_page(
 				'LianaAutomation', // page_title
@@ -432,6 +430,6 @@ class LianaAutomation_WPF {
 
 }
 if ( is_admin() ) {
-	$lianaAutomationWPForms = new LianaAutomation_WPF();
+	$lianaautomation_wpf = new LianaAutomation_WPF();
 }
 
