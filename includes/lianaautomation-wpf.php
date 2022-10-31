@@ -28,93 +28,107 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 		$liana_t = null;
 	}
 
-	// Extract the form data to Automation compatible array
-	$wpFormsArray = array();
+	// We shall extract the form data to an LianaAutomation compatible array.
+	$wpf_array = array();
 
-	// Try to find an email address from the form fields data
-	// WPForms is supposed to have a built-in field type 'email'.
+	/*
+	 * Try to find an email address from the form fields data.
+	 * ( WPForms is supposed to have a built-in field type 'email'. )
+	 */
 	$email = null;
 	foreach ( $fields as $field ) {
-		if ( ! $email && $field['type'] == 'email' ) {
+		if ( ! $email && 'email' === $field['type'] ) {
 			$email = $field['value'];
 		}
-		// Fill the wpFormsArray while iterating the fields
-		$wpFormsArray[ $field['name'] ] = $field['value'];
+		// Fill the wpf_array while iterating the fields.
+		$wpf_array[ $field['name'] ] = $field['value'];
 	}
 	if ( empty( $email ) ) {
-		error_log( 'ERROR: No /email/i found on form data. Bailing out.' );
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'ERROR: No /email/i found on form data. Bailing out.' );
+			// phpcs:enable
+		}
 		return false;
 	}
 
 	/*
 	* Phone number is a WPForms PRO feature
+	* (not implemented yet here)
 	*
-	// Try to find an email address from the form data
+	// Try to find an email address from the form data.
 	$sms = null;
 	*/
 
-	// Add Gravity Forms 'magic' values for title and id
-	$wpFormsArray['formtitle'] = $form_data['settings']['form_title'];
-	$wpFormsArray['formid']    = $form_data['id'];
-
-	// error_log(
-	// "Liana_WPForms_Process_Entry_save:fields ".print_r($fields, true)
-	// );
-
-	// error_log(
-	// "Liana_WPForms_Process_Entry_save:form_data ".print_r($form_data, true)
-	// );
+	// Add Gravity Forms 'magic' values for title and id.
+	$wpf_array['formtitle'] = $form_data['settings']['form_title'];
+	$wpf_array['formid']    = $form_data['id'];
 
 	/**
 	* Retrieve Liana Options values (Array of All Options)
 	*/
-	$lianaautomation_wpf_options
-		= get_option( 'lianaautomation_wpf_options' );
+	$lianaautomation_wpf_options = get_option( 'lianaautomation_wpf_options' );
 
 	if ( empty( $lianaautomation_wpf_options ) ) {
-		error_log( 'lianaautomation_wpf_options was empty' );
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'lianaautomation_wpf_options was empty' );
+			// phpcs:enable
+		}
 		return false;
 	}
 
-	// The user id, integer
+	// The user id, integer.
 	if ( empty( $lianaautomation_wpf_options['lianaautomation_user'] ) ) {
-		error_log( 'lianaautomation_options lianaautomation_user was empty' );
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'lianaautomation_options lianaautomation_user was empty' );
+			// phpcs:enable
+		}
 		return false;
 	}
 	$user = $lianaautomation_wpf_options['lianaautomation_user'];
 
-	// Hexadecimal secret string
+	// Hexadecimal secret string.
 	if ( empty( $lianaautomation_wpf_options['lianaautomation_key'] ) ) {
-		error_log(
-			'lianaautomation_wpf_options lianaautomation_key was empty!'
-		);
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'lianaautomation_wpf_options lianaautomation_key was empty!' );
+			// phpcs:enable
+		}
 		return false;
 	}
 	$secret = $lianaautomation_wpf_options['lianaautomation_key'];
 
-	// The base url for our API installation
+	// The base url for our API installation.
 	if ( empty( $lianaautomation_wpf_options['lianaautomation_url'] ) ) {
-		error_log(
-			'lianaautomation_wpf_options lianaautomation_url was empty!'
-		);
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'lianaautomation_wpf_options lianaautomation_url was empty!' );
+			// phpcs:enable
+		}
 		return false;
 	}
 	$url = $lianaautomation_wpf_options['lianaautomation_url'];
 
-	// The realm of our API installation, all caps alphanumeric string
+	// The realm of our API installation, all caps alphanumeric string.
 	if ( empty( $lianaautomation_wpf_options['lianaautomation_realm'] ) ) {
-		error_log(
-			'lianaautomation_wpf_options lianaautomation_realm was empty!'
-		);
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'lianaautomation_wpf_options lianaautomation_realm was empty!' );
+			// phpcs:enable
+		}
 		return false;
 	}
 	$realm = $lianaautomation_wpf_options['lianaautomation_realm'];
 
-	// The channel ID of our automation
+	// The channel ID of our automation.
 	if ( empty( $lianaautomation_wpf_options['lianaautomation_channel'] ) ) {
-		error_log(
-			'lianaautomation_wpf_options lianaautomation_channel was empty!'
-		);
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+			// phpcs:disable WordPress.PHP.DevelopmentFunctions
+			error_log( 'lianaautomation_wpf_options lianaautomation_channel was empty!' );
+			// phpcs:enable
+		}
 		return false;
 	}
 	$channel = $lianaautomation_wpf_options['lianaautomation_channel'];
@@ -122,11 +136,11 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 	/**
 	* General variables
 	*/
-	$basePath    = 'rest';             // Base path of the api end points
-	$contentType = 'application/json'; // Content will be send as json
-	$method      = 'POST';             // Method is always POST
+	$base_path    = 'rest';             // Base path of the api end points.
+	$content_type = 'application/json'; // Content will be send as json.
+	$method       = 'POST';             // Method is always POST.
 
-	// Build the identity array
+	// Build the identity array!
 	$identity = array();
 	if ( ! empty( $email ) ) {
 		$identity['email'] = $email;
@@ -138,12 +152,12 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 		$identity['sms'] = $sms;
 	}
 
-	// Bail out if no identities found
+	// Bail out if no identities found!
 	if ( empty( $identity ) ) {
 		return false;
 	}
 
-	// Import Data
+	// Import Data!
 	$path = 'v1/import';
 
 	$data = array(
@@ -155,36 +169,38 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 				'events'   => array(
 					array(
 						'verb'  => 'formsend',
-						'items' => $wpFormsArray,
+						'items' => $wpf_array,
 					),
 				),
 			),
 		),
 	);
 
-	// Encode our body content data
-	$data = json_encode( $data );
-	// Get the current datetime in ISO 8601
-	$date = date( 'c' );
-	// md5 hash our body content
-	$contentMd5 = md5( $data );
-	// Create our signature
-	$signatureContent = implode(
+	// Encode our body content data.
+	$data = wp_json_encode( $data );
+	// Get the current datetime in ISO 8601.
+	$date = gmdate( 'c' );
+	// md5 hash our body content.
+	$content_md5 = md5( $data );
+	// Create our signature.
+	$signature_content = implode(
 		"\n",
 		array(
 			$method,
-			$contentMd5,
-			$contentType,
+			$content_md5,
+			$content_type,
 			$date,
 			$data,
-			"/{$basePath}/{$path}",
+			"/{$base_path}/{$path}",
 		),
 	);
-	$signature        = hash_hmac( 'sha256', $signatureContent, $secret );
-	// Create the authorization header value
+
+	$signature = hash_hmac( 'sha256', $signature_content, $secret );
+
+	// Create the authorization header value.
 	$auth = "{$realm} {$user}:" . $signature;
 
-	// Create our full stream context with all required headers
+	// Create our full stream context with all required headers.
 	$ctx = stream_context_create(
 		array(
 			'http' => array(
@@ -194,8 +210,8 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 					array(
 						"Authorization: {$auth}",
 						"Date: {$date}",
-						"Content-md5: {$contentMd5}",
-						"Content-Type: {$contentType}",
+						"Content-md5: {$content_md5}",
+						"Content-Type: {$content_type}",
 					)
 				),
 				'content' => $data,
@@ -203,12 +219,12 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 		)
 	);
 
-	// Build full path, open a data stream, and decode the json response
-	$fullPath = "{$url}/{$basePath}/{$path}";
-	$fp       = fopen( $fullPath, 'rb', false, $ctx );
+	// Build full path, open a data stream, and decode the json response.
+	$full_path = "{$url}/{$base_path}/{$path}";
 
-	// If LianaAutomation API settings is invalid
-	// or endpoint is not working properly, bail out
+	$fp = fopen( $full_path, 'rb', false, $ctx );
+
+	// If LianaAutomation API settings is invalid or endpoint is not working properly, bail out.
 	if ( ! $fp ) {
 		return false;
 	}
