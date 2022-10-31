@@ -20,11 +20,11 @@
  * @return null
  */
 function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $form_data ) {
-	// Gets liana_t tracking cookie if set
+	// Gets liana_t tracking cookie if set.
 	if ( isset( $_COOKIE['liana_t'] ) ) {
-		$liana_t = $_COOKIE['liana_t'];
+		$liana_t = sanitize_key( $_COOKIE['liana_t'] );
 	} else {
-		// We shall send the form even without tracking cookie data
+		// We shall send the form even without tracking cookie data.
 		$liana_t = null;
 	}
 
@@ -68,56 +68,56 @@ function lianaautomation_wpf_process_entry_save( $fields, $entry, $form_id, $for
 	/**
 	* Retrieve Liana Options values (Array of All Options)
 	*/
-	$lianaautomation_wpforms_options
-		= get_option( 'lianaautomation_wpforms_options' );
+	$lianaautomation_wpf_options
+		= get_option( 'lianaautomation_wpf_options' );
 
-	if ( empty( $lianaautomation_wpforms_options ) ) {
-		error_log( 'lianaautomation_wpforms_options was empty' );
+	if ( empty( $lianaautomation_wpf_options ) ) {
+		error_log( 'lianaautomation_wpf_options was empty' );
 		return false;
 	}
 
 	// The user id, integer
-	if ( empty( $lianaautomation_wpforms_options['lianaautomation_user'] ) ) {
+	if ( empty( $lianaautomation_wpf_options['lianaautomation_user'] ) ) {
 		error_log( 'lianaautomation_options lianaautomation_user was empty' );
 		return false;
 	}
-	$user = $lianaautomation_wpforms_options['lianaautomation_user'];
+	$user = $lianaautomation_wpf_options['lianaautomation_user'];
 
 	// Hexadecimal secret string
-	if ( empty( $lianaautomation_wpforms_options['lianaautomation_key'] ) ) {
+	if ( empty( $lianaautomation_wpf_options['lianaautomation_key'] ) ) {
 		error_log(
-			'lianaautomation_wpforms_options lianaautomation_key was empty!'
+			'lianaautomation_wpf_options lianaautomation_key was empty!'
 		);
 		return false;
 	}
-	$secret = $lianaautomation_wpforms_options['lianaautomation_key'];
+	$secret = $lianaautomation_wpf_options['lianaautomation_key'];
 
 	// The base url for our API installation
-	if ( empty( $lianaautomation_wpforms_options['lianaautomation_url'] ) ) {
+	if ( empty( $lianaautomation_wpf_options['lianaautomation_url'] ) ) {
 		error_log(
-			'lianaautomation_wpforms_options lianaautomation_url was empty!'
+			'lianaautomation_wpf_options lianaautomation_url was empty!'
 		);
 		return false;
 	}
-	$url = $lianaautomation_wpforms_options['lianaautomation_url'];
+	$url = $lianaautomation_wpf_options['lianaautomation_url'];
 
 	// The realm of our API installation, all caps alphanumeric string
-	if ( empty( $lianaautomation_wpforms_options['lianaautomation_realm'] ) ) {
+	if ( empty( $lianaautomation_wpf_options['lianaautomation_realm'] ) ) {
 		error_log(
-			'lianaautomation_wpforms_options lianaautomation_realm was empty!'
+			'lianaautomation_wpf_options lianaautomation_realm was empty!'
 		);
 		return false;
 	}
-	$realm = $lianaautomation_wpforms_options['lianaautomation_realm'];
+	$realm = $lianaautomation_wpf_options['lianaautomation_realm'];
 
 	// The channel ID of our automation
-	if ( empty( $lianaautomation_wpforms_options['lianaautomation_channel'] ) ) {
+	if ( empty( $lianaautomation_wpf_options['lianaautomation_channel'] ) ) {
 		error_log(
-			'lianaautomation_wpforms_options lianaautomation_channel was empty!'
+			'lianaautomation_wpf_options lianaautomation_channel was empty!'
 		);
 		return false;
 	}
-	$channel = $lianaautomation_wpforms_options['lianaautomation_channel'];
+	$channel = $lianaautomation_wpf_options['lianaautomation_channel'];
 
 	/**
 	* General variables
