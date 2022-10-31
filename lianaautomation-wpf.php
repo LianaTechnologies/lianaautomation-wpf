@@ -27,7 +27,7 @@ require_once dirname( __FILE__ ) . '/includes/lianaautomation-cookie.php';
 /**
  * Include WPForms code
  */
-require_once dirname( __FILE__ ) . '/includes/lianaautomation-wpforms.php';
+require_once dirname( __FILE__ ) . '/includes/lianaautomation-wpf.php';
 
 /**
  * Conditionally include admin panel code
