@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       LianaAutomation WPF
+ * Plugin Name:       LianaAutomation for WPForms
  * Description:       LianaAutomation for WPForms.
  * Version:           1.0.3
  * Requires at least: 5.2

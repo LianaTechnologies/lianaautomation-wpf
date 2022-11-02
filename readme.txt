@@ -1,4 +1,4 @@
-=== LianaAutomation WPF ===
+=== LianaAutomation for WPForms ===
 Contributors: lianatechnologies, jaakkoperoliana, timopohjanvirtaliana
 Tags: automation, forms, ecommerce, e-commerce
 Requires at least: 5.8
@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0-standalone.html
 
 == Description ==
 
-LianaAutomation WPF is an integration plugin for WPForms and the LianaAutomation marketing automation platform.
+LianaAutomation for WPForms is an integration plugin for WPForms and the LianaAutomation marketing automation platform.
 
 = Create Automations for your WordPress site visitors =
 
