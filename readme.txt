@@ -1,14 +1,22 @@
 === LianaAutomation for WPForms ===
 Contributors: lianatechnologies, jaakkoperoliana, timopohjanvirtaliana
 Tags: automation, forms, ecommerce, e-commerce
-Requires at least: 5.8
-Tested up to: 6.3
-Requires PHP: 7.4
-Stable tag: 1.0.4
+Requires at least: 6.5
+Tested up to: 6.9
+Requires PHP: 8.0
+Stable tag: 1.0.5
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0-standalone.html
 
 == Description ==
+
+== Deprecation notice ==
+
+This plugin has been deprecated and merged into [Liana with GrowthStack](https://wordpress.org/plugins/liana-with-growthstack/).
+
+This plugin will no longer receive updates.
+
+== LianaAutomation for WPForms ==
 
 LianaAutomation for WPForms is an integration plugin for WPForms and the LianaAutomation marketing automation platform. It enables the creation of automations and segmenting customer data in the marketing automation solution LianaAutomation, based on form data collected from WPForms.
 
